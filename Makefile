@@ -113,13 +113,13 @@ all: mkinitrd
 mkinitrd: $(_FILES_C_OBJ)
 	
 	@$(PRINT) $(PROMPT)"Linking executable: "$(COLOR_GRAY)"$(notdir $@)"$(COLOR_NONE)
-	@$(TOOLS_CC) -Werror -Weverything -o $(PATH_BUILD_TOOLS_BIN)$@ $(_FILES_C_OBJ)
+	@$(TOOLS_CC) -o $(PATH_BUILD_TOOLS_BIN)$@ $(_FILES_C_OBJ)
 
 # Compiles a C file
 $(PATH_BUILD_TOOLS_MKINITRD)%$(EXT_C)$(EXT_OBJ): %$(EXT_C)
 	
 	@$(PRINT) $(PROMPT)"Compiling C file:   "$(COLOR_YELLOW)"$(notdir $<)"$(COLOR_NONE)" -> "$(COLOR_GRAY)"$(notdir $@)"$(COLOR_NONE)
-	@$(TOOLS_CC) -Werror -Weverything -o $@ -c $<
+	@$(TOOLS_CC) -o $@ -c $<
 
 # Cleans the build files
 clean:
