@@ -61,7 +61,202 @@
 
 /* $Id$ */
 
-int main( void )
+#include "include/mkinitrd.h"
+
+#define __MKINITRD_CLEANUP          free( ( void * )filepaths );            \
+                                    free( ( void * )filenames );            \
+                                    free( ( void * )entries );              \
+                                    if( files != NULL )                     \
+                                    {                                       \
+                                        for( i = 0; i < fileCount; i++ )    \
+                                        {                                   \
+                                            if( files[ i ] != NULL )        \
+                                            {                               \
+                                                fclose( files[ i ] );       \
+                                            }                               \
+                                        }                                   \
+                                    }                                       \
+                                    free( ( void * )files );                \
+                                    if( out != NULL )                       \
+                                    {                                       \
+                                        fclose( out );                      \
+                                    }
+#define __MKINITRD_ERROR( _s_ )     __MKINITRD_CLEANUP                      \
+                                    fprintf( stderr, _s_ );                 \
+                                    return EXIT_FAILURE;
+
+int main( int argc, const char * argv[] )
 {
-    return 0;
+    const char  * output;
+    const char ** filenames;
+    const char ** filepaths;
+    FILE        * out;
+    FILE       ** files;
+    int           i;
+    int           j;
+    int           fileCount;
+    InitRD_Header  header;
+    InitRD_Entry * entries;
+    InitRD_Entry * entry;
+    uint64_t       offset;
+    int            verbose;
+    char           buf[ 4096 ];
+    size_t         size;
+    
+    verbose     = 0;
+    entries     = NULL;
+    files       = NULL;
+    out         = NULL;
+    output      = NULL;
+    filepaths   = ( const char ** )calloc( sizeof( const char * ), ( size_t )argc );
+    filenames   = NULL;
+    fileCount   = 0;
+    
+    if( filepaths == NULL )
+    {
+        __MKINITRD_ERROR( "Error: out of memory.\n" );
+    }
+    
+    for( i = 1; i < argc; i++ )
+    {
+        if( strcmp( argv[ i ], "-h" ) == 0 )
+        {
+            mkinitrd_help();
+            
+            return EXIT_SUCCESS;
+        }
+        else if( strcmp( argv[ i ], "-o" ) == 0 && i != argc - 1 )
+        {
+            output = argv[ ++i ];
+        }
+        else if( strcmp( argv[ i ], "-v" ) == 0 )
+        {
+            verbose = 1;
+        }
+        else
+        {
+            filepaths[ fileCount++ ] = argv[ i ];
+        }
+    }
+    
+    if( output == NULL )
+    {
+        __MKINITRD_ERROR( "Error: no output file specified. Please specify an output file with '-o'.\n" );
+    }
+    
+    out = fopen( output, "w" );
+    
+    if( out == NULL )
+    {
+        __MKINITRD_ERROR( "Error: cannot open output file for writing.\n" );
+    }
+    
+    if( fileCount == 0 )
+    {
+        __MKINITRD_ERROR( "Error: no input file specified.\n" );
+    }
+    
+    files     = ( FILE ** )calloc( sizeof( FILE * ), ( size_t )fileCount );
+    filenames = ( const char ** )calloc( sizeof( const char * ), ( size_t )fileCount );
+    entries   = ( InitRD_Entry * )calloc( sizeof( InitRD_Entry ), ( size_t )fileCount );
+    
+    if( files == NULL || filenames == NULL || entries == NULL )
+    {
+        __MKINITRD_ERROR( "Error: out of memory.\n" );
+    }
+    
+    offset = ( uint64_t )sizeof( InitRD_Header ) + ( ( uint64_t )sizeof( InitRD_Entry ) * ( uint64_t )fileCount );
+    
+    for( i = 0; i < fileCount; i++ )
+    {
+        filenames[ i ]  = mkinitrd_filename( filepaths[ i ] );
+        files[ i ]      = fopen( filepaths[ i ], "r" );
+        
+        for( j = 0; j < i; j++ )
+        {
+            if( strcmp( filenames[ i ], filenames[ j ] ) == 0 )
+            {
+                __MKINITRD_ERROR( "Error: files cannot have the same name.\n" );
+            }
+        }
+        
+        if( files[ i ] == NULL )
+        {
+            __MKINITRD_ERROR( "Error: cannot open input file for writing.\n" );
+        }
+        
+        entry = &( entries[ i ] );
+        
+        strcpy( entry->filename, filenames[ i ] );
+        
+        entry->size     = mkinitrd_filesize( files[ i ] );
+        entry->offset   = ( uint32_t )offset;
+        
+        if( offset > UINT32_MAX )
+        {
+            __MKINITRD_ERROR( "Error: RAM disk is too big.\n" );
+        }
+        
+        if( entry->size == 0 )
+        {
+            __MKINITRD_ERROR( "Error: file is empty or too big.\n" );
+        }
+        
+        if( verbose == 1 )
+        {
+            printf
+            (
+                "File #%i:\n"
+                "    Name:      %s\n"
+                "    Size:      %010u bytes\n"
+                "    Offset:    %010u bytes\n",
+                i + 1,
+                entry->filename,
+                entry->size,
+                entry->offset
+            );
+        }
+        
+        offset += entry->size;
+    }
+    
+    header.fileCount = ( uint32_t )fileCount;
+    
+    if( verbose == 1 )
+    {
+        printf( "Writing RAM disk header:\n    %010lu bytes\n", ( unsigned long )( sizeof( InitRD_Header ) ) );
+    }
+    
+    fwrite( &header, sizeof( InitRD_Header ), 1, out );
+    
+    if( verbose == 1 )
+    {
+        printf( "Writing RAM disk entries:\n    %010lu bytes\n", ( unsigned long )( sizeof( InitRD_Entry ) * ( unsigned long )fileCount ) );
+    }
+    
+    fwrite( entries, sizeof( InitRD_Entry ), ( size_t )fileCount, out );
+    
+    for( i = 0; i < fileCount; i++ )
+    {
+        memset( buf, 0, sizeof( buf ) );
+        
+        if( verbose == 1 )
+        {
+            printf( "Writing data for file #%i:\n", i + 1 );
+        }
+        
+        while( ( size = fread( buf, 1, sizeof( buf ), files[ i ] ) ) )
+        {
+            if( verbose == 1 )
+            {
+                printf( "    %010lu bytes\n", ( unsigned long )size );
+            }
+            
+            fwrite( buf, 1, size, out );
+        }
+    }
+    
+    __MKINITRD_CLEANUP
+    
+    return EXIT_SUCCESS;
 }
