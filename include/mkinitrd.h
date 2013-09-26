@@ -79,10 +79,12 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
+#define INITRD_SIGNATURE            0x44525358
 #define INITRD_FILENAME_MAXLENGTH   255
 
 typedef struct
 {
+    uint32_t    signature;
     uint32_t    fileCount;
 }
 InitRD_Header;

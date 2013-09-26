@@ -220,6 +220,7 @@ int main( int argc, const char * argv[] )
         offset += entry->size;
     }
     
+    header.signature = ( uint32_t )INITRD_SIGNATURE;
     header.fileCount = ( uint32_t )fileCount;
     
     if( verbose == 1 )
