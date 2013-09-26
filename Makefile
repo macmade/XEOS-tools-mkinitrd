@@ -97,7 +97,8 @@ _FILES_C_OBJ        = $(addprefix $(PATH_BUILD_TOOLS_MKINITRD),$(_FILES_C_OBJ_RE
 #-------------------------------------------------------------------------------
 
 # Declaration for phony targets, to avoid problems with local files
-.PHONY: all     \
+.PHONY: all         \
+        mkinitrd    \
         clean
 
 #-------------------------------------------------------------------------------
