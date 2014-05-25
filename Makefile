@@ -65,41 +65,20 @@ include ../../Makefile-Config.mk
 # Display
 #-------------------------------------------------------------------------------
 
-PROMPT              := "    ["$(COLOR_GREEN)" XEOS "$(COLOR_NONE)"]> ["$(COLOR_GREEN)" TOOL "$(COLOR_NONE)"]> ["$(COLOR_GREEN)" MKRD "$(COLOR_NONE)"]>           *** "
-
-#-------------------------------------------------------------------------------
-# Search paths
-#-------------------------------------------------------------------------------
-
-# Define the search paths for source files
-vpath %$(EXT_C)         $(DIR_TOOLS_MKINITRD)
-
-#-------------------------------------------------------------------------------
-# File suffixes
-#-------------------------------------------------------------------------------
-
-# Adds the suffixes used in this file
-.SUFFIXES:  $(EXT_C)        \
-            $(EXT_H)        \
-            $(EXT_OBJ)
+PROMPT  := "    ["$(COLOR_GREEN)" XEOS "$(COLOR_NONE)"]> ["$(COLOR_GREEN)" TOOL "$(COLOR_NONE)"]> ["$(COLOR_GREEN)" MKRD "$(COLOR_NONE)"]>           *** "
 
 #-------------------------------------------------------------------------------
 # Files
 #-------------------------------------------------------------------------------
 
-_FILES_C_SRC        = $(foreach dir,$(PATH_TOOLS_MKINITRD),$(wildcard $(PATH_TOOLS_MKINITRD)*$(EXT_C)))
-_FILES_C_SRC_REL    = $(notdir $(_FILES_C_SRC))
-_FILES_C_OBJ_REL    = $(subst $(EXT_C),$(EXT_C)$(EXT_OBJ),$(_FILES_C_SRC_REL))
-_FILES_C_OBJ        = $(addprefix $(PATH_BUILD_TOOLS_MKINITRD),$(_FILES_C_OBJ_REL))
+_FILES  = $(call XEOS_FUNC_C_TOOLS_OBJ,$(PATH_TOOLS_MKINITRD))
 
 #-------------------------------------------------------------------------------
 # Built-in targets
 #-------------------------------------------------------------------------------
 
 # Declaration for phony targets, to avoid problems with local files
-.PHONY: all         \
-        mkinitrd    \
-        clean
+.PHONY: all mkinitrd clean
 
 #-------------------------------------------------------------------------------
 # Phony targets
@@ -109,21 +88,16 @@ _FILES_C_OBJ        = $(addprefix $(PATH_BUILD_TOOLS_MKINITRD),$(_FILES_C_OBJ_RE
 all: mkinitrd
 	
 	@:
-
+	
 # Links the executable
-mkinitrd: $(_FILES_C_OBJ)
+mkinitrd: $(_FILES)
 	
 	@$(PRINT) $(PROMPT)"Linking executable: "$(COLOR_GRAY)"$(notdir $@)"$(COLOR_NONE)
-	@$(TOOLS_CC) -o $(PATH_BUILD_TOOLS_BIN)$@ $(_FILES_C_OBJ)
-
-# Compiles a C file
-$(PATH_BUILD_TOOLS_MKINITRD)%$(EXT_C)$(EXT_OBJ): %$(EXT_C)
-	
-	@$(PRINT) $(PROMPT)"Compiling C file:   "$(COLOR_YELLOW)"$(notdir $<)"$(COLOR_NONE)" -> "$(COLOR_GRAY)"$(notdir $@)"$(COLOR_NONE)
-	@$(TOOLS_CC) -o $@ -c $<
+	@$(TOOLS_CC) -o $(PATH_BUILD_TOOLS_BIN)$@ $^
 
 # Cleans the build files
 clean:
 	
 	@$(PRINT) $(PROMPT)"Cleaning all build files"
-	@$(RM) $(ARGS_RM) $(PATH_BUILD_TOOLS_MKINITRD)*
+	@$(RM) $(ARGS_RM) $(PATH_BUILD_TOOLS_OBJ)$(subst $(PATH_TOOLS),,$(PATH_TOOLS_MKINITRD))
+	@$(RM) $(ARGS_RM) $(PATH_BUILD_TOOLS_BIN)mkinitrd
