@@ -1,0 +1,126 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		055EB7491A96552C009ACFEC /* mkinitrd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mkinitrd.h; sourceTree = "<group>"; };
+		055EB74A1A96552C009ACFEC /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		055EB74B1A96552C009ACFEC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		055EB74D1A96552C009ACFEC /* mkinitrd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mkinitrd.c; sourceTree = "<group>"; };
+		055EB74E1A96552C009ACFEC /* mkinitrd_filename.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mkinitrd_filename.c; sourceTree = "<group>"; };
+		055EB74F1A96552C009ACFEC /* mkinitrd_filesize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mkinitrd_filesize.c; sourceTree = "<group>"; };
+		055EB7501A96552C009ACFEC /* mkinitrd_help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mkinitrd_help.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		055EB7481A96552C009ACFEC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				055EB7491A96552C009ACFEC /* mkinitrd.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		055EB74C1A96552C009ACFEC /* source */ = {
+			isa = PBXGroup;
+			children = (
+				055EB74D1A96552C009ACFEC /* mkinitrd.c */,
+				055EB74E1A96552C009ACFEC /* mkinitrd_filename.c */,
+				055EB74F1A96552C009ACFEC /* mkinitrd_filesize.c */,
+				055EB7501A96552C009ACFEC /* mkinitrd_help.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		0595BA7A17AC11A70021435A = {
+			isa = PBXGroup;
+			children = (
+				055EB7481A96552C009ACFEC /* include */,
+				055EB74A1A96552C009ACFEC /* Makefile */,
+				055EB74B1A96552C009ACFEC /* README.md */,
+				055EB74C1A96552C009ACFEC /* source */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		0595BA7F17AC11A70021435A /* XEOS-tools-mkinitrd */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 0595BA8217AC11A70021435A /* Build configuration list for PBXLegacyTarget "XEOS-tools-mkinitrd" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "XEOS-tools-mkinitrd";
+			passBuildSettingsInEnvironment = 1;
+			productName = "LIB-PTHREAD";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		0595BA7B17AC11A70021435A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "XS-Labs";
+			};
+			buildConfigurationList = 0595BA7E17AC11A70021435A /* Build configuration list for PBXProject "XEOS-tools-mkinitrd" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0595BA7A17AC11A70021435A;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0595BA7F17AC11A70021435A /* XEOS-tools-mkinitrd */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		0595BA8117AC11A70021435A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0595BA8417AC11A70021435A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0595BA7E17AC11A70021435A /* Build configuration list for PBXProject "XEOS-tools-mkinitrd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0595BA8117AC11A70021435A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0595BA8217AC11A70021435A /* Build configuration list for PBXLegacyTarget "XEOS-tools-mkinitrd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0595BA8417AC11A70021435A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0595BA7B17AC11A70021435A /* Project object */;
+}
