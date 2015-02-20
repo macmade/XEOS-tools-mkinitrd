@@ -62,11 +62,12 @@
 include make/Config.mk
 include make/Targets.mk
 
+TOOL    := mkinitrd
 PROMPT  := XEOS TOOLS MKINITRD
 DEPS    := 
-FILES   := 
+FILES   := $(call XEOS_FUNC_C_FILES,$(DIR_SRC))
 
-all:
+all: tool-build
 	
 	@:
 	
