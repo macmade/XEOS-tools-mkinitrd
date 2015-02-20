@@ -61,7 +61,7 @@
 
 /* $Id$ */
 
-#include "include/mkinitrd.h"
+#include "mkinitrd.h"
 
 void mkinitrd_help( void )
 {

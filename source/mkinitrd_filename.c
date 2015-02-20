@@ -61,7 +61,7 @@
 
 /* $Id$ */
 
-#include "include/mkinitrd.h"
+#include "mkinitrd.h"
 
 const char * mkinitrd_filename( const char * path )
 {

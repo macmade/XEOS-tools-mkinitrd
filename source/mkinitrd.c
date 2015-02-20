@@ -61,7 +61,7 @@
 
 /* $Id$ */
 
-#include "include/mkinitrd.h"
+#include "mkinitrd.h"
 
 #define __MKINITRD_CLEANUP          free( ( void * )filepaths );            \
                                     free( ( void * )filenames );            \

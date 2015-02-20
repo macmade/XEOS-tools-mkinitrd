@@ -61,7 +61,7 @@
 
 /* $Id$ */
 
-#include "include/mkinitrd.h"
+#include "mkinitrd.h"
 
 uint32_t mkinitrd_filesize( FILE * fp )
 {
