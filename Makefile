@@ -74,3 +74,7 @@ all: tool-build
 clean: obj-clean
 	
 	@:
+
+distclean: clean deps-clean
+	
+	@:
