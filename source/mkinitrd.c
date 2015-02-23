@@ -87,14 +87,14 @@
 
 int main( int argc, const char * argv[] )
 {
-    const char  * output;
-    const char ** filenames;
-    const char ** filepaths;
-    FILE        * out;
-    FILE       ** files;
-    int           i;
-    int           j;
-    int           fileCount;
+    const char   * output;
+    const char  ** filenames;
+    const char  ** filepaths;
+    FILE         * out;
+    FILE        ** files;
+    int            i;
+    int            j;
+    int            fileCount;
     InitRD_Header  header;
     InitRD_Entry * entries;
     InitRD_Entry * entry;
@@ -182,7 +182,7 @@ int main( int argc, const char * argv[] )
         
         if( files[ i ] == NULL )
         {
-            MKINITRD_ERROR( "Error: cannot open input file for writing.\n" );
+            MKINITRD_ERROR( "Error: cannot open input file for reading.\n" );
         }
         
         entry = &( entries[ i ] );
