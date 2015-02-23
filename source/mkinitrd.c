@@ -63,7 +63,7 @@
 
 #include "mkinitrd.h"
 
-#define __MKINITRD_CLEANUP          free( ( void * )filepaths );            \
+#define MKINITRD_CLEANUP            free( ( void * )filepaths );            \
                                     free( ( void * )filenames );            \
                                     free( ( void * )entries );              \
                                     if( files != NULL )                     \
@@ -81,7 +81,7 @@
                                     {                                       \
                                         fclose( out );                      \
                                     }
-#define __MKINITRD_ERROR( _s_ )     __MKINITRD_CLEANUP                      \
+#define MKINITRD_ERROR( _s_ )       MKINITRD_CLEANUP                        \
                                     fprintf( stderr, _s_ );                 \
                                     return EXIT_FAILURE;
 
@@ -114,7 +114,7 @@ int main( int argc, const char * argv[] )
     
     if( filepaths == NULL )
     {
-        __MKINITRD_ERROR( "Error: out of memory.\n" );
+        MKINITRD_ERROR( "Error: out of memory.\n" );
     }
     
     for( i = 1; i < argc; i++ )
@@ -141,19 +141,19 @@ int main( int argc, const char * argv[] )
     
     if( output == NULL )
     {
-        __MKINITRD_ERROR( "Error: no output file specified. Please specify an output file with '-o'.\n" );
+        MKINITRD_ERROR( "Error: no output file specified. Please specify an output file with '-o'.\n" );
     }
     
     out = fopen( output, "w" );
     
     if( out == NULL )
     {
-        __MKINITRD_ERROR( "Error: cannot open output file for writing.\n" );
+        MKINITRD_ERROR( "Error: cannot open output file for writing.\n" );
     }
     
     if( fileCount == 0 )
     {
-        __MKINITRD_ERROR( "Error: no input file specified.\n" );
+        MKINITRD_ERROR( "Error: no input file specified.\n" );
     }
     
     files     = ( FILE ** )calloc( sizeof( FILE * ), ( size_t )fileCount );
@@ -162,7 +162,7 @@ int main( int argc, const char * argv[] )
     
     if( files == NULL || filenames == NULL || entries == NULL )
     {
-        __MKINITRD_ERROR( "Error: out of memory.\n" );
+        MKINITRD_ERROR( "Error: out of memory.\n" );
     }
     
     offset = ( uint64_t )sizeof( InitRD_Header ) + ( ( uint64_t )sizeof( InitRD_Entry ) * ( uint64_t )fileCount );
@@ -176,13 +176,13 @@ int main( int argc, const char * argv[] )
         {
             if( strcmp( filenames[ i ], filenames[ j ] ) == 0 )
             {
-                __MKINITRD_ERROR( "Error: files cannot have the same name.\n" );
+                MKINITRD_ERROR( "Error: files cannot have the same name.\n" );
             }
         }
         
         if( files[ i ] == NULL )
         {
-            __MKINITRD_ERROR( "Error: cannot open input file for writing.\n" );
+            MKINITRD_ERROR( "Error: cannot open input file for writing.\n" );
         }
         
         entry = &( entries[ i ] );
@@ -194,12 +194,12 @@ int main( int argc, const char * argv[] )
         
         if( offset > UINT32_MAX )
         {
-            __MKINITRD_ERROR( "Error: RAM disk is too big.\n" );
+            MKINITRD_ERROR( "Error: RAM disk is too big.\n" );
         }
         
         if( entry->size == 0 )
         {
-            __MKINITRD_ERROR( "Error: file is empty or too big.\n" );
+            MKINITRD_ERROR( "Error: file is empty or too big.\n" );
         }
         
         if( verbose == 1 )
@@ -257,7 +257,7 @@ int main( int argc, const char * argv[] )
         }
     }
     
-    __MKINITRD_CLEANUP
+    MKINITRD_CLEANUP
     
     return EXIT_SUCCESS;
 }
