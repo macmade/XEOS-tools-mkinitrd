@@ -67,8 +67,8 @@
  * @copyright       (c) 2010-2013, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef __TOOLS_MKINITRD_H__
-#define __TOOLS_MKINITRD_H__
+#ifndef TOOLS_MKINITRD_H
+#define TOOLS_MKINITRD_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -105,4 +105,4 @@ uint32_t        mkinitrd_filesize( FILE * fp );
 }
 #endif
 
-#endif /* __TOOLS_MKINITRD_H__ */
+#endif /* TOOLS_MKINITRD_H */
