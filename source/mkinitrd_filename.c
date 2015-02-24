@@ -59,8 +59,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-/* $Id$ */
-
 #include "mkinitrd.h"
 
 const char * mkinitrd_filename( const char * path )

@@ -59,8 +59,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-/* $Id$ */
-
 #include "mkinitrd.h"
 
 uint32_t mkinitrd_filesize( FILE * fp )

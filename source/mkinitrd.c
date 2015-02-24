@@ -59,8 +59,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-/* $Id$ */
-
 #include "mkinitrd.h"
 
 #define MKINITRD_CLEANUP            free( ( void * )filepaths );            \
